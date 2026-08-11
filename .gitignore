@@ -1,0 +1,11 @@
+# Cloned upstream projects — kept as clean, pull-able reference checkouts.
+# Not tracked by this (gowrite specs) repo. Update them with `git pull` in place.
+/appwrite/
+/appwrite-console/
+/appwrite-reversa/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/

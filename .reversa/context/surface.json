@@ -1,0 +1,139 @@
+{
+  "generated_at": "2026-08-05T01:06:15Z",
+  "project_root": "/Users/danielvm/Developer/appwrite-reversa",
+  "project": "appwrite",
+  "languages": [
+    { "name": "PHP", "extensions": [".php"], "file_count": 1722 },
+    { "name": "Markdown", "extensions": [".md"], "file_count": 847 },
+    { "name": "JSON", "extensions": [".json"], "file_count": 114 },
+    { "name": "JavaScript", "extensions": [".js", ".mjs"], "file_count": 47 },
+    { "name": "YAML", "extensions": [".yml", ".yaml"], "file_count": 30 },
+    { "name": "Python", "extensions": [".py"], "file_count": 8 }
+  ],
+  "primary_language": "PHP",
+  "frameworks": [
+    { "name": "PHP", "version": ">=8.5.0", "source": "composer.json" },
+    { "name": "Swoole", "version": "6.*", "source": "composer.json" },
+    { "name": "Utopia PHP (http)", "version": "2.0.0-rc19", "source": "composer.lock" },
+    { "name": "Utopia PHP (database)", "version": "7.0.0", "source": "composer.lock" },
+    { "name": "Utopia PHP (auth)", "version": "0.10.1", "source": "composer.lock" },
+    { "name": "Utopia PHP (queue)", "version": "1.0.1", "source": "composer.lock" },
+    { "name": "Utopia PHP (storage)", "version": "4.0.1", "source": "composer.lock" },
+    { "name": "Utopia PHP (messaging)", "version": "2.0.2", "source": "composer.lock" },
+    { "name": "Utopia PHP (platform)", "version": "1.0.0-rc16", "source": "composer.lock" },
+    { "name": "GraphQL (webonyx)", "version": "v15.32.3", "source": "composer.lock" },
+    { "name": "PHPUnit", "version": "12.5.32", "source": "composer.lock" }
+  ],
+  "package_manager": "composer",
+  "entry_points": [
+    { "path": "app/http.php", "type": "http_entry" },
+    { "path": "app/realtime.php", "type": "realtime_entry" },
+    { "path": "app/cli.php", "type": "cli_entry" },
+    { "path": "app/worker.php", "type": "worker_entry" },
+    { "path": "app/init.php", "type": "bootstrap" }
+  ],
+  "config_files": [
+    ".env",
+    "composer.json",
+    "phpunit.xml",
+    "pint.json",
+    "phpstan.neon",
+    "rector.php",
+    "app/config/collections/common.php",
+    "app/config/collections/platform.php",
+    "app/config/collections/projects.php",
+    "app/config/collections/databases.php",
+    "app/config/collections/logs.php",
+    "app/config/collections/vectorsdb.php"
+  ],
+  "ci_cd": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/publish.yml",
+    ".github/workflows/nightly.yml",
+    ".github/workflows/specs.yml",
+    ".github/workflows/codeql-analysis.yml",
+    ".github/workflows/static-analysis/",
+    ".github/workflows/sdk-preview.yml",
+    ".github/workflows/ai-moderator.yml"
+  ],
+  "docker": {
+    "dockerfile": "Dockerfile",
+    "compose": "docker-compose.yml"
+  },
+  "database_hints": [
+    { "path": "app/config/collections/", "type": "collections_dir" },
+    { "path": "app/init/database/", "type": "database_init" },
+    { "path": "src/Appwrite/Database/", "type": "database_namespace" },
+    { "path": "mongo-init.js", "type": "mongo_init" },
+    { "path": "mongo-init-replicaset.sh", "type": "mongo_script" }
+  ],
+  "test_framework": "PHPUnit",
+  "test_file_count": 383,
+  "modules": [
+    "Account",
+    "Advisor",
+    "Avatars",
+    "Compute",
+    "Console",
+    "Databases",
+    "Functions",
+    "Health",
+    "Migrations",
+    "Notifications",
+    "Organization",
+    "Presences",
+    "Project",
+    "Projects",
+    "Proxy",
+    "Sites",
+    "Storage",
+    "Teams",
+    "Tokens",
+    "Users",
+    "VCS",
+    "Webhooks"
+  ],
+  "workers": [
+    "builds",
+    "certificates",
+    "databases",
+    "deletes",
+    "functions",
+    "jobs",
+    "mails",
+    "messaging",
+    "migrations",
+    "notifications",
+    "screenshots",
+    "webhooks"
+  ],
+  "total_files": 3281,
+  "organization_suggestion": {
+    "granularity": "module",
+    "rationale": "The codebase is organized around 22 feature modules under src/Appwrite/Platform/Modules/, each with its own HTTP services, workers and tasks (Account, Databases, Functions, Storage, Teams, Users...).",
+    "signals": [
+      {
+        "type": "top_level_domain_folders",
+        "evidence": [
+          "src/Appwrite/Platform/Modules/Account/",
+          "src/Appwrite/Platform/Modules/Databases/",
+          "src/Appwrite/Platform/Modules/Functions/",
+          "src/Appwrite/Platform/Modules/Storage/",
+          "src/Appwrite/Platform/Modules/Teams/",
+          "src/Appwrite/Platform/Modules/Users/",
+          "src/Appwrite/Platform/Modules/Webhooks/"
+        ]
+      },
+      {
+        "type": "centralized_http_routing",
+        "evidence": [
+          "src/Appwrite/Platform/Modules/Account/Services/Http.php",
+          "src/Appwrite/Platform/Modules/Databases/Services/Http.php",
+          "app/init/registers.php"
+        ]
+      }
+    ],
+    "features": []
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 2,
+  "startedAt": "2026-08-05T00:00:00Z",
+  "lastCheckpoint": "2026-08-11T16:23:34Z",
+  "completedAgents": [
+    "paradigm_advisor",
+    "curator",
+    "strategist",
+    "designer",
+    "screen_translator",
+    "inspector"
+  ],
+  "pendingAgents": [],
+  "currentAgent": {
+    "agent": null,
+    "phase": null,
+    "status": "complete",
+    "topologyApproved": true,
+    "screenModeApproved": true
+  },
+  "pendingDecisions": [],
+  "artifacts": {
+    "paradigm_decision.md": {
+      "sha256": "2738974d5e0781f939988528d44ae36cbfdc8a35d946099fa3b787f87b09b0da",
+      "producedBy": "paradigm_advisor",
+      "appetite": "transformational"
+    },
+    "target_business_rules.md": {
+      "sha256": "8f4c5a6549628bb95fb145762170d8a1c9dcb4f0768ef2f40ea12465f31b50b4",
+      "producedBy": "curator"
+    },
+    "discard_log.md": {
+      "sha256": "5600a0a4fbd8a59ad11bc1947870355c869103b0cdd2dc882b40d61440a5d4eb",
+      "producedBy": "curator"
+    },
+    "ambiguity_log.md": {
+      "sha256": "92cf9034b0ee6657b98a64bbca564c309e2e5f1d8c7c927dac1cd832a94dbcc9",
+      "producedBy": "orchestrator"
+    },
+    "migration_strategy.md": {
+      "sha256": "14ccdd07ed6d3fbaedb5df3335a088d1c8713680966b4b41db9ee02eefff643e",
+      "producedBy": "strategist"
+    },
+    "risk_register.md": {
+      "sha256": "e778057f19799b989d78d170d67772fda9d72b3218af3ffc046357dc92d3777d",
+      "producedBy": "strategist"
+    },
+    "cutover_plan.md": {
+      "sha256": "87323822445a59edd5341843264deae00684999593f86a24b67b7473e83c597c",
+      "producedBy": "strategist"
+    },
+    "topology_decision.md": {
+      "sha256": "5f7a67fda9104504ed7431fe0598f905eaa6575fc5334f85c9992d60a699a0dc",
+      "producedBy": "designer",
+      "choice": "hybrid-9-contexts"
+    },
+    "target_architecture.md": {
+      "sha256": "ab399462824924b20fa395e036c30745edb54f857b62eb8eed78f1ef35ab1ff4",
+      "producedBy": "designer"
+    },
+    "target_domain_model.md": {
+      "sha256": "2fe6f57946f00c782f71da0d513c1437532d9a85fb1aadecf151bbc17e9e96a8",
+      "producedBy": "designer"
+    },
+    "target_data_model.md": {
+      "sha256": "8e053d076cc9e5302b6d38af44964255b9fea2b2a699d2806cf7282b4298752b",
+      "producedBy": "designer"
+    },
+    "data_migration_plan.md": {
+      "sha256": "12cd548cbb08f11d9f572baecabf1c48da7b7c4b07fa13a897b751ac88c50b06",
+      "producedBy": "designer"
+    },
+    "screen_modernization_decision.md": {
+      "sha256": "5560092ac17b494ceb6fe48cbfbd4c10f55d42b548a41084d4b2c84936a7aea4",
+      "producedBy": "screen-translator"
+    },
+    "screen_deviation_log.md": {
+      "sha256": "9585b058438b0d7bcadeade849b159626481ae87e63d425197932a0407c81fee",
+      "producedBy": "screen-translator"
+    },
+    "target_screens.md": {
+      "sha256": "8dd0c44162560a8ad5f5c7053338a01899be5a95482cfaa8a50765550a5a0f52",
+      "producedBy": "screen-translator"
+    },
+    "redteam_findings.md": {
+      "sha256": "479d5e9ca21c4cb589966941debe4e1727eb33afbee6d6a0f5821b09d51a5f24",
+      "producedBy": "red-team"
+    },
+    "parity_specs.md": {
+      "sha256": "45fc208d913d2b97c2f62aa49f3a282f03e775674c89b60ab2cf724d65624661",
+      "producedBy": "inspector"
+    },
+    "handoff.md": {
+      "sha256": "21f218474a40fa83fe7ed89ac49d3d79743aeb7a86fc085068381cd694bbe075",
+      "producedBy": "orchestrator"
+    }
+  },
+  "auto": false,
+  "engine": "claude-code",
+  "reversaVersion": "1.2.57",
+  "briefPath": "specs/migration/migration_brief.md",
+  "expectedLegacyArtifacts": "references/expected_legacy_artifacts.yaml",
+  "specsRoot": "specs",
+  "validations": {
+    "topology_redteam": {
+      "at": "2026-08-11",
+      "agents": 3,
+      "verdicts": {
+        "boundary": "sound-with-fixes",
+        "strategy_fit": "undermines-as-documented",
+        "simplicity": "over-engineered"
+      },
+      "structural_fixes_applied": [
+        "9->11 contexts + Console BFF",
+        "projects sole-owner",
+        "VCS via outbox",
+        "flip-unit=context",
+        "Identity+Orgs co-flip",
+        "platform de-godpackaged",
+        "topological order",
+        "referenced-context gate"
+      ],
+      "pending_human_pivots": [
+        "O1 hexagonal-vs-flat",
+        "O3 redis-vs-postgres-only",
+        "O4 engine-vs-sqlc",
+        "O5 outbox-vs-jobs-skiplocked"
+      ],
+      "all_pivots_resolved": true,
+      "decisions": {
+        "code_structure": "flat+sqlc",
+        "infra": "postgres-only-jobs-skiplocked"
+      }
+    },
+    "console_redteam": {
+      "at": "2026-08-11",
+      "agents": 2,
+      "verdicts": {
+        "hosting": "feasible-with-changes",
+        "contract_parity": "insufficient-as-stated-corrected"
+      },
+      "mode": "literal-preserve",
+      "oracle_corrected": true
+    }
+  },
+  "completedAt": "2026-08-11"
+}

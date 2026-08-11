@@ -1,0 +1,503 @@
+{
+  "generated_at": "2026-08-05T02:10:00Z",
+  "modules": [
+    {
+      "name": "Account",
+      "path": "src/Appwrite/Platform/Modules/Account/",
+      "purpose": "Subsistema de autenticação multi-fator (MFA) da conta: autenticadores TOTP, códigos de recuperação e desafios com elevação de fatores de sessão.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "users", "confidence": "confirmed" },
+        { "name": "sessions", "confidence": "confirmed" },
+        { "name": "authenticators", "confidence": "confirmed" },
+        { "name": "challenges", "confidence": "confirmed" },
+        { "name": "recovery_codes", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Autenticador TOTP verificado não pode ser recriado (409) até ser deletado", "location": "src/Appwrite/Platform/Modules/Account/", "confidence": "confirmed" },
+        { "description": "Desafios MFA com rate limit de 10 por url+user e 10 por url+challengeId", "location": "src/Appwrite/Platform/Modules/Account/", "confidence": "confirmed" },
+        { "description": "Fatores de sessão recalculados e deduplicados ao habilitar/desabilitar MFA", "location": "src/Appwrite/Platform/Modules/Account/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["users", "tokens", "project"],
+      "algorithms": ["TOTP lifecycle (otphp): create secret -> confirm OTP -> persist authenticator", "Session factor elevation"],
+      "complexity": "medium"
+    },
+    {
+      "name": "Advisor",
+      "path": "src/Appwrite/Platform/Modules/Advisor/",
+      "purpose": "API read-mostly sobre análises automatizadas (Lighthouse, database-analyzer): reports e insights aninhados com delete em cascata assíncrono.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Enums/InsightCTAMethod.php",
+        "Enums/InsightCTAService.php",
+        "Enums/InsightSeverity.php",
+        "Enums/InsightStatus.php",
+        "Enums/InsightType.php",
+        "Enums/ReportType.php"
+      ],
+      "entities": [
+        { "name": "reports", "confidence": "confirmed" },
+        { "name": "insights", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Listagem de insights em lote evita N+1", "location": "src/Appwrite/Platform/Modules/Advisor/", "confidence": "confirmed" },
+        { "description": "Delete de report enfileira limpeza assíncrona dos insights (DELETE_TYPE_REPORT)", "location": "src/Appwrite/Platform/Modules/Advisor/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "Avatars",
+      "path": "src/Appwrite/Platform/Modules/Avatars/",
+      "purpose": "Endpoints de imagem/proxy read-only: avatares estáticos, initials, QR codes, favicon, resize remoto, screenshots e cartões de membro cloud.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Http/Action.php"
+      ],
+      "entities": [],
+      "business_rules": [
+        { "description": "Proteção SSRF: apenas hostnames públicos, máx. 5 redirects manuais no favicon", "location": "src/Appwrite/Platform/Modules/Avatars/", "confidence": "confirmed" },
+        { "description": "Cor determinística de initials via 5 temas (índice mod 5)", "location": "src/Appwrite/Platform/Modules/Avatars/", "confidence": "confirmed" },
+        { "description": "Screenshots roteados para microserviço interno de browser (_APP_BROWSER_HOST)", "location": "src/Appwrite/Platform/Modules/Avatars/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["project", "users"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "Compute",
+      "path": "src/Appwrite/Platform/Modules/Compute/",
+      "purpose": "Biblioteca compartilhada de Functions/Sites: Action base com deploy VCS, constantes de compute-size e validador de specification.",
+      "primary_files": [
+        "Base.php",
+        "Specification.php",
+        "Validator/Specification.php"
+      ],
+      "entities": [],
+      "business_rules": [
+        { "description": "getDefaultSpecification retorna a spec mais baixa (default) ou mais alta (max) do plano", "location": "src/Appwrite/Platform/Modules/Compute/", "confidence": "confirmed" },
+        { "description": "Deploy de site via VCS minteia 3 preview rules", "location": "src/Appwrite/Platform/Modules/Compute/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["functions", "sites", "proxy"],
+      "algorithms": ["resolveTemplateRef com resolução de tags wildcard via GitHub"],
+      "complexity": "low"
+    },
+    {
+      "name": "Console",
+      "path": "src/Appwrite/Platform/Modules/Console/",
+      "purpose": "Gateway e utilitários do console: variáveis de configuração, templates de e-mail, metadados OAuth2, scopes, proxy do assistente de IA, security headers e disponibilidade de recursos.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [],
+      "business_rules": [
+        { "description": "Endpoints console exigem guard de console-project", "location": "src/Appwrite/Platform/Modules/Console/", "confidence": "confirmed" },
+        { "description": "Proxy do assistente com rate limit de 15 consultas por usuário", "location": "src/Appwrite/Platform/Modules/Console/", "confidence": "confirmed" },
+        { "description": "getResource rejeita domínios em deny list/reservados e exige unicidade", "location": "src/Appwrite/Platform/Modules/Console/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["project"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "Databases",
+      "path": "src/Appwrite/Platform/Modules/Databases/",
+      "purpose": "Camada primária de persistência com quatro produtos (legacy, TablesDB, DocumentsDB, VectorsDB) + embeddings, schema assíncrono via worker e sistema de transações com lock otimista.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Services/Workers.php",
+        "Workers/Databases.php",
+        "Pool.php",
+        "Constants.php"
+      ],
+      "entities": [
+        { "name": "databases", "confidence": "confirmed" },
+        { "name": "database_{seq}", "confidence": "confirmed" },
+        { "name": "attributes", "confidence": "confirmed" },
+        { "name": "indexes", "confidence": "confirmed" },
+        { "name": "transactions", "confidence": "confirmed" },
+        { "name": "transactionLogs", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Operações de schema são assíncronas via worker (publisherForDatabase) com flags de status", "location": "src/Appwrite/Platform/Modules/Databases/", "confidence": "confirmed" },
+        { "description": "Transações usam lock otimista (version) com commit atômico único e rollback via publisher de deletes", "location": "src/Appwrite/Platform/Modules/Databases/", "confidence": "confirmed" },
+        { "description": "Atributos string com flag encrypt são criptografados (filtro encrypt)", "location": "src/Appwrite/Platform/Modules/Databases/", "confidence": "confirmed" },
+        { "description": "Relacionamentos bidirecionais espelhados pelo worker", "location": "src/Appwrite/Platform/Modules/Databases/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "project", "users"],
+      "algorithms": ["Optimistic-lock transactions", "Async schema provisioning", "Vector search (createQuery) via VectorsDB", "Embeddings via utopia-php/agents"],
+      "complexity": "high"
+    },
+    {
+      "name": "Functions",
+      "path": "src/Appwrite/Platform/Modules/Functions/",
+      "purpose": "Compute serverless: CRUD de functions, deployments (upload/VCS/template/duplicata), variáveis, executions síncronas/assíncronas/agendadas e catálogos de runtimes/specifications/templates.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Services/Workers.php",
+        "Workers/Builds.php",
+        "Workers/Jobs.php",
+        "Workers/Screenshots.php",
+        "Workers/BuildException.php"
+      ],
+      "entities": [
+        { "name": "functions", "confidence": "confirmed" },
+        { "name": "deployments", "confidence": "confirmed" },
+        { "name": "executions", "confidence": "confirmed" },
+        { "name": "variables", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Upload em chunks com distributed lock e fluxo de presigned URL", "location": "src/Appwrite/Platform/Modules/Functions/", "confidence": "confirmed" },
+        { "description": "Execuções assíncronas enfileiram FunctionMessage; agendadas criam doc de schedule", "location": "src/Appwrite/Platform/Modules/Functions/", "confidence": "confirmed" },
+        { "description": "Padrão join no Jobs worker: callbacks exit(0)/complete(+manifest) deduplicados por CloudEvent id", "location": "src/Appwrite/Platform/Modules/Functions/", "confidence": "confirmed" },
+        { "description": "JWT de curta duração por execution (HS256) como x-appwrite-key para o executor", "location": "src/Appwrite/Platform/Modules/Functions/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["compute", "sites", "proxy", "project", "vcs"],
+      "algorithms": ["Chunked upload + distributed lock", "Async execution queue", "Jobs worker join pattern"],
+      "complexity": "high"
+    },
+    {
+      "name": "Health",
+      "path": "src/Appwrite/Platform/Modules/Health/",
+      "purpose": "Diagnósticos de administração: probes de HTTP, pools de banco, cache, pub/sub, NTP, certificados SSL, antivírus, geo, storage e filas.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [],
+      "business_rules": [
+        { "description": "Queue size acima do threshold (default 5000) => HEALTH_QUEUE_SIZE_EXCEEDED", "location": "src/Appwrite/Platform/Modules/Health/", "confidence": "confirmed" },
+        { "description": "/health/time usa UDP raw para time.google.com:123 com drift máximo de 60s", "location": "src/Appwrite/Platform/Modules/Health/", "confidence": "confirmed" },
+        { "description": "/health/certificate checa expiração; anti-virus e geo respeitam flags de env", "location": "src/Appwrite/Platform/Modules/Health/", "confidence": "confirmed" }
+      ],
+      "dependencies": [],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "Migrations",
+      "path": "src/Appwrite/Platform/Modules/Migrations/",
+      "purpose": "Importação de dados entre provedores (Appwrite, Firebase, Supabase, NHost) e export/import de coleções CSV/JSON.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "migrations", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Máquina de estados pending -> processing -> completed/failed; retry apenas quando failed", "location": "src/Appwrite/Platform/Modules/Migrations/", "confidence": "confirmed" },
+        { "description": "Política onDuplicate: fail/skip/overwrite", "location": "src/Appwrite/Platform/Modules/Migrations/", "confidence": "confirmed" },
+        { "description": "Export CSV/JSON grava no bucket interno da plataforma com notificação por e-mail opcional", "location": "src/Appwrite/Platform/Modules/Migrations/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "project", "storage"],
+      "algorithms": [],
+      "complexity": "medium"
+    },
+    {
+      "name": "Notifications",
+      "path": "src/Appwrite/Platform/Modules/Notifications/",
+      "purpose": "Notificações in-app do console + pixel de open-tracking de e-mail.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "notifications", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Guard console-only nos endpoints", "location": "src/Appwrite/Platform/Modules/Notifications/", "confidence": "confirmed" },
+        { "description": "Pixel de tracking decodifica JWT HS256 (_APP_NOTIFICATIONS_TRACKING_SECRET) e marca read/firstSeen/lastSeen", "location": "src/Appwrite/Platform/Modules/Notifications/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "Organization",
+      "path": "src/Appwrite/Platform/Modules/Organization/",
+      "purpose": "Gestão de projetos com escopo de time (/v1/organization/projects): provisionamento, ownership por teamInternalId e limpeza assíncrona.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Http/Init.php"
+      ],
+      "entities": [
+        { "name": "projects", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Endpoints exigem time válido (Init valida $team)", "location": "src/Appwrite/Platform/Modules/Organization/Http/Init.php", "confidence": "confirmed" },
+        { "description": "Criação escolhe DSN do pool (filtro de região) e faz bootstrap de coleções", "location": "src/Appwrite/Platform/Modules/Organization/", "confidence": "confirmed" },
+        { "description": "Ownership verificado via teamInternalId", "location": "src/Appwrite/Platform/Modules/Organization/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "project"],
+      "algorithms": [],
+      "complexity": "medium"
+    },
+    {
+      "name": "Presences",
+      "path": "src/Appwrite/Platform/Modules/Presences/",
+      "purpose": "Estado de presença em tempo real por projeto via presenceLogs, com upsert, expiração e cache TTL.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "HTTP/Upsert.php",
+        "HTTP/XList.php",
+        "HTTP/Get.php",
+        "HTTP/Update.php",
+        "HTTP/Delete.php"
+      ],
+      "entities": [
+        { "name": "presenceLogs", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Expiry default de 15min e máximo de 30 dias com soft-expire na leitura", "location": "src/Appwrite/Platform/Modules/Presences/", "confidence": "confirmed" },
+        { "description": "Cache de lista TTL (0-86400s) com header X-Appwrite-Cache e purge", "location": "src/Appwrite/Platform/Modules/Presences/", "confidence": "confirmed" },
+        { "description": "Escrita de userId restrita a chamadores key/privilegiados", "location": "src/Appwrite/Platform/Modules/Presences/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "users"],
+      "algorithms": ["Upsert + TTL cache"],
+      "complexity": "low"
+    },
+    {
+      "name": "Project",
+      "path": "src/Appwrite/Platform/Modules/Project/",
+      "purpose": "Configuração e ciclo de vida de projeto único: keys (padrão + JWT efêmeros), variáveis, plataformas, OAuth2, SMTP, templates, policies de auth/security.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Http/Init.php"
+      ],
+      "entities": [
+        { "name": "keys", "confidence": "confirmed" },
+        { "name": "platforms", "confidence": "confirmed" },
+        { "name": "variables", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Keys efêmeras são JWT HS256 não persistidos; padrão com scopes/expiry", "location": "src/Appwrite/Platform/Modules/Project/", "confidence": "confirmed" },
+        { "description": "Templates de e-mail editáveis apenas com SMTP custom habilitado", "location": "src/Appwrite/Platform/Modules/Project/", "confidence": "confirmed" },
+        { "description": "Secrets de OAuth2 nunca retornados nas leituras", "location": "src/Appwrite/Platform/Modules/Project/", "confidence": "confirmed" },
+        { "description": "Mudança de variáveis marca functions/sites live=false (rebuild)", "location": "src/Appwrite/Platform/Modules/Project/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "users"],
+      "algorithms": [],
+      "complexity": "high"
+    },
+    {
+      "name": "Projects",
+      "path": "src/Appwrite/Platform/Modules/Projects/",
+      "purpose": "Ciclo de vida de projetos em nível de plataforma: criação com provisionamento de banco, metadata, transferência de time, dev keys tombstoned e schedules CRON.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "projects", "confidence": "confirmed" },
+        { "name": "devKeys", "confidence": "confirmed" },
+        { "name": "schedules", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Seleção de DSN na criação: filtro de região, aleatório ou override", "location": "src/Appwrite/Platform/Modules/Projects/", "confidence": "confirmed" },
+        { "description": "Dev keys legadas tombstoned (DEV_KEY_GONE)", "location": "src/Appwrite/Platform/Modules/Projects/", "confidence": "confirmed" },
+        { "description": "Transferência de time propaga permissões para installations/repositories/comentários VCS", "location": "src/Appwrite/Platform/Modules/Projects/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["project", "organization", "vcs", "proxy"],
+      "algorithms": [],
+      "complexity": "medium"
+    },
+    {
+      "name": "Proxy",
+      "path": "src/Appwrite/Platform/Modules/Proxy/",
+      "purpose": "Rotas de domínio customizado (api/function/site/redirect) com verificação de DNS e provisionamento de certificados TLS.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Action.php"
+      ],
+      "entities": [
+        { "name": "rules", "confidence": "confirmed" },
+        { "name": "certificates", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Id de rule legado = md5(domain); domínios Appwrite auto-verificados", "location": "src/Appwrite/Platform/Modules/Proxy/", "confidence": "confirmed" },
+        { "description": "Ciclo de status created -> unverified -> verified -> certificate_generating com retry", "location": "src/Appwrite/Platform/Modules/Proxy/", "confidence": "confirmed" },
+        { "description": "Gate CAA antes da emissão; alvos CNAME diferem por resourceType", "location": "src/Appwrite/Platform/Modules/Proxy/", "confidence": "confirmed" },
+        { "description": "Delete em cascata limpa o certificado", "location": "src/Appwrite/Platform/Modules/Proxy/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "sites", "functions"],
+      "algorithms": ["DNS verification + TLS provisioning"],
+      "complexity": "medium"
+    },
+    {
+      "name": "Sites",
+      "path": "src/Appwrite/Platform/Modules/Sites/",
+      "purpose": "Hospedagem de sites estáticos/SSR: CRUD, deployments (upload/template/VCS/duplicata), ativação, cancelamento de build, variáveis e catálogos de framework/template/spec.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "sites", "confidence": "confirmed" },
+        { "name": "deployments", "confidence": "confirmed" },
+        { "name": "variables", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Upload em chunks com lock de 600s; LockContention => 429 Retry-After", "location": "src/Appwrite/Platform/Modules/Sites/", "confidence": "confirmed" },
+        { "description": "Cada deployment minteia preview rule (verified) sob sitesDomain", "location": "src/Appwrite/Platform/Modules/Sites/", "confidence": "confirmed" },
+        { "description": "Ativação exige deployment ready; cancelamento bloqueado quando ready/failed", "location": "src/Appwrite/Platform/Modules/Sites/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["compute", "functions", "proxy", "vcs", "project"],
+      "algorithms": ["Chunked upload + distributed lock"],
+      "complexity": "high"
+    },
+    {
+      "name": "Storage",
+      "path": "src/Appwrite/Platform/Modules/Storage/",
+      "purpose": "Storage de objetos: buckets e arquivos com security, compressão, criptografia, antivírus, transformações de imagem e acesso via download/view/preview/push.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Config/CacheControl.php",
+        "Config/StorageCacheControl.php"
+      ],
+      "entities": [
+        { "name": "buckets", "confidence": "confirmed" },
+        { "name": "files", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Criação de bucket provisiona bucket_{seq} a partir do schema de config", "location": "src/Appwrite/Platform/Modules/Storage/", "confidence": "confirmed" },
+        { "description": "Upload em chunks com Content-Range e distributed lock; compressão GZIP/ZSTD + AES-128-GCM no finalize", "location": "src/Appwrite/Platform/Modules/Storage/", "confidence": "confirmed" },
+        { "description": "fileSecurity vs permissões bucket-level; expansão de grupos de role", "location": "src/Appwrite/Platform/Modules/Storage/", "confidence": "confirmed" },
+        { "description": "Endpoint push gated por JWT (HS256, 1h)", "location": "src/Appwrite/Platform/Modules/Storage/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "project", "tokens", "avatars"],
+      "algorithms": ["Chunked upload (Content-Range) + distributed lock", "Image transforms (Imagick)"],
+      "complexity": "high"
+    },
+    {
+      "name": "Teams",
+      "path": "src/Appwrite/Platform/Modules/Teams/",
+      "purpose": "Colaboração: times, memberships, preferências e fluxo de invite/confirm com criação de sessão para convidados.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "teams", "confidence": "confirmed" },
+        { "name": "memberships", "confidence": "confirmed" },
+        { "name": "users", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Invite via email/SMS/userId com criação de usuário stub quando não há match", "location": "src/Appwrite/Platform/Modules/Teams/", "confidence": "confirmed" },
+        { "description": "Confirm valida invite secret (proofForToken) e cria sessão para convidado não logado", "location": "src/Appwrite/Platform/Modules/Teams/", "confidence": "confirmed" },
+        { "description": "Proteção do último owner do console; promoção de usuário primário", "location": "src/Appwrite/Platform/Modules/Teams/", "confidence": "confirmed" },
+        { "description": "membershipsPrivacy controla exposição de campos", "location": "src/Appwrite/Platform/Modules/Teams/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["users", "project"],
+      "algorithms": [],
+      "complexity": "medium"
+    },
+    {
+      "name": "Tokens",
+      "path": "src/Appwrite/Platform/Modules/Tokens/",
+      "purpose": "Tokens de recurso de curta duração para acesso público por URL a arquivos do storage.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "resourceTokens", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Secret de 128 bytes armazenado criptografado; resourceId composto bucketId:fileId", "location": "src/Appwrite/Platform/Modules/Tokens/", "confidence": "confirmed" },
+        { "description": "Criação exige permissão UPDATE no bucket/file; ADMIN/KEY apenas", "location": "src/Appwrite/Platform/Modules/Tokens/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["storage", "projects"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "Users",
+      "path": "src/Appwrite/Platform/Modules/Users/",
+      "purpose": "Gestão de usuários por admin: CRUD, imports de hash (Bcrypt/MD5/Argon2/SHA/PHPass/Scrypt), sub-recursos completos (sessions, targets, tokens, memberships, identities, prefs, labels, status, MFA).",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Base.php"
+      ],
+      "entities": [
+        { "name": "users", "confidence": "confirmed" },
+        { "name": "sessions", "confidence": "confirmed" },
+        { "name": "identities", "confidence": "confirmed" },
+        { "name": "targets", "confidence": "confirmed" },
+        { "name": "tokens", "confidence": "confirmed" },
+        { "name": "authenticators", "confidence": "confirmed" },
+        { "name": "challenges", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Unicidade de email entre users+identities; personalDataCheck", "location": "src/Appwrite/Platform/Modules/Users/", "confidence": "confirmed" },
+        { "description": "Sessions criadas por admin pulam verificação de senha (SESSION_PROVIDER_SERVER)", "location": "src/Appwrite/Platform/Modules/Users/", "confidence": "confirmed" },
+        { "description": "Delete hard-deleta identities/targets e enfileira limpeza no worker", "location": "src/Appwrite/Platform/Modules/Users/", "confidence": "confirmed" },
+        { "description": "Gates de política de e-mail (disposable/canonical/free/corporate)", "location": "src/Appwrite/Platform/Modules/Users/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["project", "teams", "tokens"],
+      "algorithms": ["Password hash imports (Bcrypt, MD5, Argon2, SHA, PHPass, Scrypt, Scrypt-Modified)"],
+      "complexity": "high"
+    },
+    {
+      "name": "VCS",
+      "path": "src/Appwrite/Platform/Modules/VCS/",
+      "purpose": "Integração com provedores VCS (GitHub App, GitLab/Gitea OAuth2): installations, navegação de repositórios e deployments dirigidos por webhook.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php"
+      ],
+      "entities": [
+        { "name": "installations", "confidence": "confirmed" },
+        { "name": "repositories", "confidence": "confirmed" },
+        { "name": "vcsComments", "confidence": "confirmed" },
+        { "name": "vcsCommentLocks", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Webhooks validam assinatura (403 em mismatch); eventos de bot-email ignorados", "location": "src/Appwrite/Platform/Modules/VCS/", "confidence": "confirmed" },
+        { "description": "State do callback assinado com HMAC", "location": "src/Appwrite/Platform/Modules/VCS/", "confidence": "confirmed" },
+        { "description": "Deploy de fork externo exige autorização explícita", "location": "src/Appwrite/Platform/Modules/VCS/", "confidence": "confirmed" },
+        { "description": "Comentários com lock otimista", "location": "src/Appwrite/Platform/Modules/VCS/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "functions", "sites", "proxy"],
+      "algorithms": ["Fan-out de deploy para múltiplos repos/projects", "Análise concorrente de repos via corrotinas Swoole"],
+      "complexity": "high"
+    },
+    {
+      "name": "Webhooks",
+      "path": "src/Appwrite/Platform/Modules/Webhooks/",
+      "purpose": "Webhooks de projeto: CRUD + rotação de secret com entrega de eventos.",
+      "primary_files": [
+        "Module.php",
+        "Services/Http.php",
+        "Http/Init.php"
+      ],
+      "entities": [
+        { "name": "webhooks", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Secret de 128 hex; signatureKey nunca retornado em leituras", "location": "src/Appwrite/Platform/Modules/Webhooks/", "confidence": "confirmed" },
+        { "description": "Projeto console bloqueado; scoping por projectInternalId", "location": "src/Appwrite/Platform/Modules/Webhooks/", "confidence": "confirmed" },
+        { "description": "Re-enable reseta o contador de attempts", "location": "src/Appwrite/Platform/Modules/Webhooks/", "confidence": "confirmed" }
+      ],
+      "dependencies": ["projects", "project"],
+      "algorithms": [],
+      "complexity": "low"
+    }
+  ]
+}
+
