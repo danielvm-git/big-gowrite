@@ -1,0 +1,15 @@
+story_id: e05s02
+title: "Documents with document-level ACL"
+status: todo
+bcps: 5
+risk: P0
+security: high
+tasks:
+  - id: 1
+    description: "Implement document CRUD over JSONB"
+    verify: "go test ./internal/data/... -run TestDocCRUD"
+    status: todo
+  - id: 2
+    description: "Implement ACL query filter + write check"
+    verify: "go test ./internal/data/... -run TestDocACL"
+    status: todo

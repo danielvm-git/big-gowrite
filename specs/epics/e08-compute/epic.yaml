@@ -1,0 +1,26 @@
+id: e08
+title: "Compute (functions, sites, executions)"
+wsjf: 2.25
+sequence: 8
+total_bcps: 11
+status: todo
+note: "Consumes VCS events. Executor/browser remain external (BR-HUMANA-003). Topological seq 8."
+stories:
+  - id: e08s01
+    title: "Functions & deployment state machine"
+    bcps: 5
+    status: todo
+    spec: e08s01-functions-deployments.md
+    tasks: e08s01-tasks.yaml
+  - id: e08s02
+    title: "Execution state machine"
+    bcps: 3
+    status: todo
+    spec: e08s02-executions.md
+    tasks: e08s02-tasks.yaml
+  - id: e08s03
+    title: "Sites & VCS deploy fan-out + preview rules"
+    bcps: 3
+    status: todo
+    spec: e08s03-sites-preview.md
+    tasks: e08s03-tasks.yaml

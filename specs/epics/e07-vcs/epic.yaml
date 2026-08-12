@@ -1,0 +1,20 @@
+id: e07
+title: "VCS (installations & repo events)"
+wsjf: 4.25
+sequence: 7
+total_bcps: 6
+status: todo
+note: "Migrated before/with compute; Compute reads installations synchronously (red-team S4/B2). Topological seq 7."
+stories:
+  - id: e07s01
+    title: "VCS installations & repository linkage"
+    bcps: 3
+    status: todo
+    spec: e07s01-installations.md
+    tasks: e07s01-tasks.yaml
+  - id: e07s02
+    title: "repository.pushed event publishing via jobs"
+    bcps: 3
+    status: todo
+    spec: e07s02-push-events.md
+    tasks: e07s02-tasks.yaml

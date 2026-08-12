@@ -1,0 +1,39 @@
+id: e01
+title: Platform Foundation
+wsjf: 5.6
+sequence: 1
+total_bcps: 19
+status: done
+note: Foundational; every context depends on it. Security-sensitive (crypto + auth).
+  Topological seq 1.
+stories:
+- id: e01s01
+  title: Explicit error model + HTTP translation
+  bcps: 3
+  status: done
+  spec: e01s01-errors.md
+  tasks: e01s01-tasks.yaml
+- id: e01s02
+  title: AES-GCM encryption for 25 at-rest fields
+  bcps: 3
+  status: done
+  spec: e01s02-crypto.md
+  tasks: e01s02-tasks.yaml
+- id: e01s03
+  title: Auth, console roles + document ACL
+  bcps: 5
+  status: done
+  spec: e01s03-auth-permissions.md
+  tasks: e01s03-tasks.yaml
+- id: e01s04
+  title: In-memory token-bucket rate limiting
+  bcps: 3
+  status: done
+  spec: e01s04-ratelimit.md
+  tasks: e01s04-tasks.yaml
+- id: e01s05
+  title: Base Postgres schema + jobs table + worker skeleton
+  bcps: 5
+  status: done
+  spec: e01s05-jobs-schema.md
+  tasks: e01s05-tasks.yaml

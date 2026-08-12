@@ -1,0 +1,311 @@
+development_status:
+  e01: done
+  e01s01: done
+  e01s02: done
+  e01s03: done
+  e01s04: done
+  e01s05: done
+  e02: todo
+  e02s01: todo
+  e02s02: todo
+  e02s03: todo
+  e03: todo
+  e03s01: todo
+  e03s02: todo
+  e04: todo
+  e04s01: todo
+  e04s02: todo
+  e05: todo
+  e05s01: todo
+  e05s02: todo
+  e05s03: todo
+  e05s04: todo
+  e06: todo
+  e06s01: todo
+  e06s02: todo
+  e07: todo
+  e07s01: todo
+  e07s02: todo
+  e08: todo
+  e08s01: todo
+  e08s02: todo
+  e08s03: todo
+  e09: todo
+  e09s01: todo
+  e09s02: todo
+  e10: todo
+  e10s01: todo
+  e10s02: todo
+  e11: todo
+  e11s01: todo
+  e12: todo
+  e12s01: todo
+  e13: todo
+  e13s01: todo
+  e13s02: todo
+  e14: todo
+  e14s01: todo
+  e14s02: todo
+  e15: todo
+  e15s01: todo
+  e15s02: todo
+  e15s03: todo
+
+epics:
+  e01:
+    status: done
+    title: "Platform Foundation"
+    wsjf: 5.6
+    total_bcps: 19
+  e02:
+    status: todo
+    title: "Identity (accounts, sessions, MFA, tokens)"
+    wsjf: 4.5
+    total_bcps: 13
+  e03:
+    status: todo
+    title: "Organizations (teams & memberships)"
+    wsjf: 5.25
+    total_bcps: 8
+  e04:
+    status: todo
+    title: "Projects (+ platforms, keys, webhooks)"
+    wsjf: 4.2
+    total_bcps: 8
+  e05:
+    status: todo
+    title: "Data (databases, documents, transactions, vectors)"
+    wsjf: 2.625
+    total_bcps: 18
+  e06:
+    status: todo
+    title: "Storage (buckets, files, chunked upload)"
+    wsjf: 3.0
+    total_bcps: 8
+  e07:
+    status: todo
+    title: "VCS (installations & repo events)"
+    wsjf: 4.25
+    total_bcps: 6
+  e08:
+    status: todo
+    title: "Compute (functions, sites, executions)"
+    wsjf: 2.25
+    total_bcps: 11
+  e09:
+    status: todo
+    title: "Networking (proxy rules, domains, TLS)"
+    wsjf: 2.8
+    total_bcps: 6
+  e10:
+    status: todo
+    title: "Messaging (email/SMS/push)"
+    wsjf: 2.6
+    total_bcps: 6
+  e11:
+    status: todo
+    title: "Migrations (data import jobs)"
+    wsjf: 3.67
+    total_bcps: 3
+  e12:
+    status: todo
+    title: "Advisor (recommendations)"
+    wsjf: 3.5
+    total_bcps: 2
+  e13:
+    status: todo
+    title: "Console BFF + SPA hosting"
+    wsjf: 3.4
+    total_bcps: 6
+  e14:
+    status: todo
+    title: "Cross-cutting workers (Deletes, Stats)"
+    wsjf: 4.67
+    total_bcps: 5
+  e15:
+    status: todo
+    title: "Parity harness & cutover"
+    wsjf: 5.2
+    total_bcps: 13
+
+stories:
+  e01s01:
+    status: done
+    title: "Explicit error model + HTTP translation"
+    bcps: 3
+    epic: e01
+  e01s02:
+    status: done
+    title: "AES-GCM encryption for 25 at-rest fields"
+    bcps: 3
+    epic: e01
+  e01s03:
+    status: done
+    title: "Auth, console roles + document ACL"
+    bcps: 5
+    epic: e01
+  e01s04:
+    status: done
+    title: "In-memory token-bucket rate limiting"
+    bcps: 3
+    epic: e01
+  e01s05:
+    status: done
+    title: "Base Postgres schema + jobs table + worker skeleton"
+    bcps: 5
+    epic: e01
+  e02s01:
+    status: todo
+    title: "Users & accounts with password-hash import parity"
+    bcps: 5
+    epic: e02
+  e02s02:
+    status: todo
+    title: "Sessions & MFA/TOTP lifecycle"
+    bcps: 5
+    epic: e02
+  e02s03:
+    status: todo
+    title: "Verification, recovery, magic-url & OAuth tokens"
+    bcps: 3
+    epic: e02
+  e03s01:
+    status: todo
+    title: "Teams CRUD"
+    bcps: 3
+    epic: e03
+  e03s02:
+    status: todo
+    title: "Memberships (invited→confirmed, ≥1 owner)"
+    bcps: 5
+    epic: e03
+  e04s01:
+    status: todo
+    title: "Projects, platforms & API keys"
+    bcps: 5
+    epic: e04
+  e04s02:
+    status: todo
+    title: "Webhooks"
+    bcps: 3
+    epic: e04
+  e05s01:
+    status: todo
+    title: "Databases, collections & typed schema"
+    bcps: 5
+    epic: e05
+  e05s02:
+    status: todo
+    title: "Documents with document-level ACL"
+    bcps: 5
+    epic: e05
+  e05s03:
+    status: todo
+    title: "Optimistic-lock multi-collection transactions"
+    bcps: 5
+    epic: e05
+  e05s04:
+    status: todo
+    title: "VectorsDB via pgvector"
+    bcps: 3
+    epic: e05
+  e06s01:
+    status: todo
+    title: "Buckets & files"
+    bcps: 3
+    epic: e06
+  e06s02:
+    status: todo
+    title: "Chunked upload with concurrent-safe finalize"
+    bcps: 5
+    epic: e06
+  e07s01:
+    status: todo
+    title: "VCS installations & repository linkage"
+    bcps: 3
+    epic: e07
+  e07s02:
+    status: todo
+    title: "repository.pushed event publishing via jobs"
+    bcps: 3
+    epic: e07
+  e08s01:
+    status: todo
+    title: "Functions & deployment state machine"
+    bcps: 5
+    epic: e08
+  e08s02:
+    status: todo
+    title: "Execution state machine"
+    bcps: 3
+    epic: e08
+  e08s03:
+    status: todo
+    title: "Sites & VCS deploy fan-out + preview rules"
+    bcps: 3
+    epic: e08
+  e09s01:
+    status: todo
+    title: "Proxy rules & domain verification"
+    bcps: 3
+    epic: e09
+  e09s02:
+    status: todo
+    title: "TLS certificate lifecycle"
+    bcps: 3
+    epic: e09
+  e10s01:
+    status: todo
+    title: "Message lifecycle & providers"
+    bcps: 3
+    epic: e10
+  e10s02:
+    status: todo
+    title: "Idempotent delivery worker"
+    bcps: 3
+    epic: e10
+  e11s01:
+    status: todo
+    title: "Migration jobs state machine + retry"
+    bcps: 3
+    epic: e11
+  e12s01:
+    status: todo
+    title: "Advisor recommendations"
+    bcps: 2
+    epic: e12
+  e13s01:
+    status: todo
+    title: "Console BFF composition"
+    bcps: 3
+    epic: e13
+  e13s02:
+    status: todo
+    title: "Serve SvelteKit SPA via go:embed"
+    bcps: 3
+    epic: e13
+  e14s01:
+    status: todo
+    title: "Deletes worker (cascade)"
+    bcps: 3
+    epic: e14
+  e14s02:
+    status: todo
+    title: "Stats worker"
+    bcps: 2
+    epic: e14
+  e15s01:
+    status: todo
+    title: "Parallel Run harness + response goldens"
+    bcps: 5
+    epic: e15
+  e15s02:
+    status: todo
+    title: "WS / stream / error-catalog contract tests"
+    bcps: 5
+    epic: e15
+  e15s03:
+    status: todo
+    title: "Per-context flip, canary & PHP decommission"
+    bcps: 3
+    epic: e15

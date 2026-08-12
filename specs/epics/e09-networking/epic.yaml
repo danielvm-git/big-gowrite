@@ -1,0 +1,20 @@
+id: e09
+title: "Networking (proxy rules, domains, TLS)"
+wsjf: 2.8
+sequence: 9
+total_bcps: 6
+status: todo
+note: "TLS certificate lifecycle is security-sensitive. Topological seq 9."
+stories:
+  - id: e09s01
+    title: "Proxy rules & domain verification"
+    bcps: 3
+    status: todo
+    spec: e09s01-rules-domains.md
+    tasks: e09s01-tasks.yaml
+  - id: e09s02
+    title: "TLS certificate lifecycle"
+    bcps: 3
+    status: todo
+    spec: e09s02-tls.md
+    tasks: e09s02-tasks.yaml

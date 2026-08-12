@@ -1,0 +1,14 @@
+id: e12
+title: "Advisor (recommendations)"
+wsjf: 3.5
+sequence: 12
+total_bcps: 2
+status: todo
+note: "Smallest context. Topological seq 12."
+stories:
+  - id: e12s01
+    title: "Advisor recommendations"
+    bcps: 2
+    status: todo
+    spec: e12s01-recommendations.md
+    tasks: e12s01-tasks.yaml

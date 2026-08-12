@@ -1,0 +1,11 @@
+story_id: e12s01
+title: "Advisor recommendations"
+status: todo
+bcps: 2
+risk: P2
+security: low
+tasks:
+  - id: 1
+    description: "Implement recommendation rules"
+    verify: "go test ./internal/advisor/... -run TestRecommendations"
+    status: todo

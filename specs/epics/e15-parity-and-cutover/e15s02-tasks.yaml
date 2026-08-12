@@ -1,0 +1,19 @@
+story_id: e15s02
+title: "WS / stream / error-catalog contract tests"
+status: todo
+bcps: 5
+risk: P0
+security: medium
+tasks:
+  - id: 1
+    description: "Implement WS realtime contract tests"
+    verify: "go test ./parity/... -run TestWSContract"
+    status: todo
+  - id: 2
+    description: "Implement assistant raw-text stream tests"
+    verify: "go test ./parity/... -run TestStreamFraming"
+    status: todo
+  - id: 3
+    description: "Implement error-catalog + shape tests"
+    verify: "go test ./parity/... -run TestErrorCatalog"
+    status: todo

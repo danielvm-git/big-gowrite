@@ -1,0 +1,14 @@
+id: e11
+title: "Migrations (data import jobs)"
+wsjf: 3.67
+sequence: 11
+total_bcps: 3
+status: todo
+note: "Import/migration jobs with retry-only-from-failed. Topological seq 11."
+stories:
+  - id: e11s01
+    title: "Migration jobs state machine + retry"
+    bcps: 3
+    status: todo
+    spec: e11s01-migration-jobs.md
+    tasks: e11s01-tasks.yaml

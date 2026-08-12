@@ -1,0 +1,19 @@
+story_id: e15s01
+title: "Parallel Run harness + response goldens"
+status: todo
+bcps: 5
+risk: P0
+security: high
+tasks:
+  - id: 1
+    description: "Implement shadow mirror proxy"
+    verify: "go test ./parity/... -run TestShadowMirror"
+    status: todo
+  - id: 2
+    description: "Capture legacy response goldens"
+    verify: "go test ./parity/... -run TestGoldenCapture"
+    status: todo
+  - id: 3
+    description: "Implement divergence report + gate"
+    verify: "go test ./parity/... -run TestDivergenceGate"
+    status: todo

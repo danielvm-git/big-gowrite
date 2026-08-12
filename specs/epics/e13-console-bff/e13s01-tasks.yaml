@@ -1,0 +1,15 @@
+story_id: e13s01
+title: "Console BFF composition"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Implement BFF aggregation endpoints"
+    verify: "go test ./internal/console/... -run TestBFF"
+    status: todo
+  - id: 2
+    description: "Implement cookie-session + console headers"
+    verify: "go test ./internal/console/... -run TestConsoleSession"
+    status: todo

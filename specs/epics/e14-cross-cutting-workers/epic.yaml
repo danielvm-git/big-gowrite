@@ -1,0 +1,20 @@
+id: e14
+title: "Cross-cutting workers (Deletes, Stats)"
+wsjf: 4.67
+sequence: 14
+total_bcps: 5
+status: todo
+note: "Migrated last, after every context they touch is on Postgres (red-team S3). Topological seq 14."
+stories:
+  - id: e14s01
+    title: "Deletes worker (cascade)"
+    bcps: 3
+    status: todo
+    spec: e14s01-deletes.md
+    tasks: e14s01-tasks.yaml
+  - id: e14s02
+    title: "Stats worker"
+    bcps: 2
+    status: todo
+    spec: e14s02-stats.md
+    tasks: e14s02-tasks.yaml

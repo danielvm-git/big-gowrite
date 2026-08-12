@@ -1,0 +1,23 @@
+story_id: e01s03
+title: 'Auth, console roles + document ACL'
+status: done
+bcps: 5
+risk: P0
+security: high
+tasks:
+  - id: 1
+    description: 'Implement Principal resolution (session + JWT + key)'
+    verify: 'go -C impl test ./platform/auth/...'
+    status: passing
+  - id: 2
+    description: 'Encode roles.php scope sets as typed constants'
+    verify: 'go -C impl test ./platform/permissions/... -run TestRoleInvariants'
+    status: passing
+  - id: 3
+    description: 'Implement Can() scope check against route labels'
+    verify: 'go -C impl test ./platform/permissions/... -run TestCan'
+    status: passing
+  - id: 4
+    description: 'Implement document ACL check + query filter'
+    verify: 'go -C impl test ./platform/permissions/... -run TestDocumentACL'
+    status: passing

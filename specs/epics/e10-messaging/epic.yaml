@@ -1,0 +1,20 @@
+id: e10
+title: "Messaging (email/SMS/push)"
+wsjf: 2.6
+sequence: 10
+total_bcps: 6
+status: todo
+note: "Message lifecycle with idempotent terminal state. Topological seq 10."
+stories:
+  - id: e10s01
+    title: "Message lifecycle & providers"
+    bcps: 3
+    status: todo
+    spec: e10s01-message-lifecycle.md
+    tasks: e10s01-tasks.yaml
+  - id: e10s02
+    title: "Idempotent delivery worker"
+    bcps: 3
+    status: todo
+    spec: e10s02-delivery.md
+    tasks: e10s02-tasks.yaml

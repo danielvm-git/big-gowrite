@@ -1,0 +1,20 @@
+id: e04
+title: "Projects (+ platforms, keys, webhooks)"
+wsjf: 4.2
+sequence: 4
+total_bcps: 8
+status: todo
+note: "Sole owner of the projects collection (red-team B1). Depends on organizations. Topological seq 4."
+stories:
+  - id: e04s01
+    title: "Projects, platforms & API keys"
+    bcps: 5
+    status: todo
+    spec: e04s01-projects-platforms-keys.md
+    tasks: e04s01-tasks.yaml
+  - id: e04s02
+    title: "Webhooks"
+    bcps: 3
+    status: todo
+    spec: e04s02-webhooks.md
+    tasks: e04s02-tasks.yaml

@@ -1,0 +1,23 @@
+story_id: e01s02
+title: 'AES-GCM encryption for 25 at-rest fields'
+status: done
+bcps: 3
+risk: P0
+security: high
+tasks:
+  - id: 1
+    description: 'Implement AES-GCM encrypt/decrypt with nonce handling'
+    verify: 'go -C impl test ./platform/crypto/...'
+    status: passing
+  - id: 2
+    description: 'Wire key material from env with validation'
+    verify: 'go -C impl test ./platform/crypto/... -run TestKey'
+    status: passing
+  - id: 3
+    description: 'Prove decrypt parity against a legacy-encrypted fixture'
+    verify: 'go -C impl test ./platform/crypto/... -run TestLegacyParity'
+    status: passing
+  - id: 4
+    description: 'Add the 25-field registry + re-encrypt helper'
+    verify: 'go -C impl test ./platform/crypto/... -run TestFieldRegistry'
+    status: passing

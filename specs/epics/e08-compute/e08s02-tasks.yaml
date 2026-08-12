@@ -1,0 +1,15 @@
+story_id: e08s02
+title: "Execution state machine"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Implement execution create + status derivation"
+    verify: "go test ./internal/compute/... -run TestExecutionSM"
+    status: todo
+  - id: 2
+    description: "Implement sync-timeout→failed"
+    verify: "go test ./internal/compute/... -run TestExecTimeout"
+    status: todo
