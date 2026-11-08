@@ -1,0 +1,13 @@
+# Active bug registry. Closed entries keep their evidence for traceability.
+bugs:
+  - id: BUG-001
+    status: closed
+    severity: high
+    scope: ci
+    title: "Test job applies only migration 0001, so e02 identity tests fail in CI"
+    file: specs/bugs/BUG-001.md
+    discovered: "2026-11-08"
+    closed: "2026-11-08"
+    evidence:
+      test: "TestCIMigrationStepAppliesAllMigrations (impl/db/migrations_test.go)"
+      result: "PASS — CI now calls scripts/apply-migrations.sh; fresh DB applies 0001+0002 and full suite is green"

@@ -94,8 +94,8 @@ jobs:
           fi
           echo "PASS: No AI agent attribution"
 
-      - name: Apply DB migration
-        run: psql "$GOWRITE_TEST_DATABASE_URL" -f impl/db/migrations/0001_base.sql
+      - name: Apply DB migrations
+        run: bash scripts/apply-migrations.sh "$GOWRITE_TEST_DATABASE_URL"
 
       - name: Vet
         run: go -C impl vet ./...
