@@ -94,7 +94,9 @@ func TestFromEnv(t *testing.T) {
 	if _, err := FromEnv(); err != nil {
 		t.Fatalf("FromEnv with valid key: %v", err)
 	}
-	os.Unsetenv(EnvKey)
+	if err := os.Unsetenv(EnvKey); err != nil {
+		t.Fatalf("unset %s: %v", EnvKey, err)
+	}
 	if _, err := FromEnv(); err == nil {
 		t.Fatal("FromEnv should error when key is unset")
 	}
