@@ -1,6 +1,6 @@
 story_id: e02s03
 title: "Verification, recovery, magic-url & OAuth tokens"
-status: todo
+status: passing
 bcps: 3
 risk: P1
 security: high
@@ -8,8 +8,8 @@ tasks:
   - id: 1
     description: "Implement token issue/consume with expiry"
     verify: "go test ./internal/identity/... -run TestToken"
-    status: todo
+    status: passing
   - id: 2
     description: "Store OAuth provider tokens encrypted"
     verify: "go test ./internal/identity/... -run TestOAuthTokenCrypto"
-    status: todo
+    status: passing

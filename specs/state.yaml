@@ -1,15 +1,17 @@
 active_flow: develop-tdd
 phase: implementation
-updated_at: "2026-08-11"
+updated_at: "2026-08-12"
 current_branch: feat/e01-platform-foundation
-current_epic: e01
+current_epic: e02
 handoff:
-  last_completed: e01
+  last_completed: e02
   next_skill: develop-tdd
-  next_epic: e02  # Identity (co-flips with e03 Organizations)
+  next_epic: e03  # Organizations (teams & memberships; co-flips with e02)
 notes: >
-  e01 platform foundation implemented in impl/ (Go module github.com/danielvm-git/gowrite)
-  and fully green: 41 tests across 7 packages, gofmt + go vet clean. Crypto proven against a
-  PHP-generated AES-128-GCM fixture; roles.go generated verbatim from app/config/roles.php;
-  jobs table SKIP-LOCKED / dedup / LISTEN-NOTIFY verified against local Postgres 17.
-  Not yet committed.
+  e02 Identity implemented and green: 10/10 integration tests pass against local Postgres 17.
+  Packages: internal/identity (user, session, authenticator, token), platform/hash (7-algorithm
+  parity: argon2, bcrypt, md5, sha, phpass, scrypt, scryptMod, plaintext). Migration
+  0002_identity.sql applied. UNIQUE(user_id,type) on authenticators for TOTP ON CONFLICT.
+  Passwords argon2id-hashed then AES-128-GCM-encrypted at rest. TOTP RFC 6238 ±1 step.
+  Token consume is timing-safe. OAuth tokens encrypted in sessions table.
+  e02 co-flips with e03 Organizations per migration strategy.

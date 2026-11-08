@@ -5,10 +5,10 @@ development_status:
   e01s03: done
   e01s04: done
   e01s05: done
-  e02: todo
-  e02s01: todo
-  e02s02: todo
-  e02s03: todo
+  e02: done
+  e02s01: passing
+  e02s02: passing
+  e02s03: passing
   e03: todo
   e03s01: todo
   e03s02: todo
@@ -58,7 +58,7 @@ epics:
     wsjf: 5.6
     total_bcps: 19
   e02:
-    status: todo
+    status: done
     title: "Identity (accounts, sessions, MFA, tokens)"
     wsjf: 4.5
     total_bcps: 13
@@ -155,17 +155,17 @@ stories:
     bcps: 5
     epic: e01
   e02s01:
-    status: todo
+    status: passing
     title: "Users & accounts with password-hash import parity"
     bcps: 5
     epic: e02
   e02s02:
-    status: todo
+    status: passing
     title: "Sessions & MFA/TOTP lifecycle"
     bcps: 5
     epic: e02
   e02s03:
-    status: todo
+    status: passing
     title: "Verification, recovery, magic-url & OAuth tokens"
     bcps: 3
     epic: e02

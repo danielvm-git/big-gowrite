@@ -1,6 +1,6 @@
 story_id: e02s02
 title: "Sessions & MFA/TOTP lifecycle"
-status: todo
+status: passing
 bcps: 5
 risk: P0
 security: high
@@ -8,12 +8,12 @@ tasks:
   - id: 1
     description: "Implement session lifecycle + sqlc"
     verify: "go test ./internal/identity/... -run TestSession"
-    status: todo
+    status: passing
   - id: 2
     description: "Implement TOTP enroll/confirm state machine"
     verify: "go test ./internal/identity/... -run TestTOTP"
-    status: todo
+    status: passing
   - id: 3
     description: "Implement factor recompute/dedupe"
     verify: "go test ./internal/identity/... -run TestFactors"
-    status: todo
+    status: passing
