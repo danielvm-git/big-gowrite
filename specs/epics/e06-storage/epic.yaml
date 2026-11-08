@@ -1,0 +1,20 @@
+id: e06
+title: "Storage (buckets, files, chunked upload)"
+wsjf: 3.0
+sequence: 6
+total_bcps: 8
+status: todo
+note: "Depends on projects. Upload finalize (AV/encrypt) is security-sensitive. Topological seq 6."
+stories:
+  - id: e06s01
+    title: "Buckets & files"
+    bcps: 3
+    status: todo
+    spec: e06s01-buckets-files.md
+    tasks: e06s01-tasks.yaml
+  - id: e06s02
+    title: "Chunked upload with concurrent-safe finalize"
+    bcps: 5
+    status: todo
+    spec: e06s02-chunked-upload.md
+    tasks: e06s02-tasks.yaml

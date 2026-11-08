@@ -1,0 +1,15 @@
+story_id: e05s03
+title: "Optimistic-lock multi-collection transactions"
+status: todo
+bcps: 5
+risk: P0
+security: medium
+tasks:
+  - id: 1
+    description: "Implement staging + version check"
+    verify: "go test ./internal/data/... -run TestTxnStaging"
+    status: todo
+  - id: 2
+    description: "Implement atomic commit + rollback"
+    verify: "go test ./internal/data/... -run TestTxnCommit"
+    status: todo

@@ -1,0 +1,15 @@
+story_id: e06s01
+title: "Buckets & files"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Implement bucket/file CRUD"
+    verify: "go test ./internal/storage/... -run TestBucketFileCRUD"
+    status: todo
+  - id: 2
+    description: "Implement signed/token access"
+    verify: "go test ./internal/storage/... -run TestFileAccess"
+    status: todo

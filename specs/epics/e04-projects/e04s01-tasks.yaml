@@ -1,0 +1,19 @@
+story_id: e04s01
+title: "Projects, platforms & API keys"
+status: todo
+bcps: 5
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Implement project CRUD as sole owner"
+    verify: "go test ./internal/projects/... -run TestProjectCRUD"
+    status: todo
+  - id: 2
+    description: "Implement platforms"
+    verify: "go test ./internal/projects/... -run TestPlatforms"
+    status: todo
+  - id: 3
+    description: "Implement scoped API keys with encrypted secret"
+    verify: "go test ./internal/projects/... -run TestKeys"
+    status: todo

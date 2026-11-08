@@ -1,0 +1,10 @@
+tagFormat: "v${version}"
+initialVersion: "0.1.0"
+
+plugins:
+  - git
+  - github
+
+pluginConfigs:
+  github:
+    assets: []

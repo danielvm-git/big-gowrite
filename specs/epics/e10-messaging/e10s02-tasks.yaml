@@ -1,0 +1,15 @@
+story_id: e10s02
+title: "Idempotent delivery worker"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Implement provider adapters"
+    verify: "go test ./internal/messaging/... -run TestProviders"
+    status: todo
+  - id: 2
+    description: "Implement idempotent delivery worker"
+    verify: "go test ./internal/messaging/... -run TestDelivery"
+    status: todo

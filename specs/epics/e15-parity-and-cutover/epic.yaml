@@ -1,0 +1,26 @@
+id: e15
+title: "Parity harness & cutover"
+wsjf: 5.2
+sequence: 15
+total_bcps: 13
+status: todo
+note: "The safety mechanism applied to every context flip. High RR. Runs alongside every epic's flip. Topological seq 15 (spans all flips)."
+stories:
+  - id: e15s01
+    title: "Parallel Run harness + response goldens"
+    bcps: 5
+    status: todo
+    spec: e15s01-parallel-run.md
+    tasks: e15s01-tasks.yaml
+  - id: e15s02
+    title: "WS / stream / error-catalog contract tests"
+    bcps: 5
+    status: todo
+    spec: e15s02-contract-tests.md
+    tasks: e15s02-tasks.yaml
+  - id: e15s03
+    title: "Per-context flip, canary & PHP decommission"
+    bcps: 3
+    status: todo
+    spec: e15s03-flip-runbook.md
+    tasks: e15s03-tasks.yaml

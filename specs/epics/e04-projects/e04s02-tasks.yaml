@@ -1,0 +1,15 @@
+story_id: e04s02
+title: "Webhooks"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Implement webhook CRUD + signature"
+    verify: "go test ./internal/projects/... -run TestWebhookCRUD"
+    status: todo
+  - id: 2
+    description: "Implement delivery worker via jobs"
+    verify: "go test ./internal/projects/... -run TestWebhookDelivery"
+    status: todo

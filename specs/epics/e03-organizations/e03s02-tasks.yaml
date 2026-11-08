@@ -1,0 +1,19 @@
+story_id: e03s02
+title: "Memberships (invited→confirmed, ≥1 owner)"
+status: todo
+bcps: 5
+risk: P0
+security: medium
+tasks:
+  - id: 1
+    description: "Implement invite (stub user + membership) transaction"
+    verify: "go test ./internal/organizations/... -run TestInvite"
+    status: todo
+  - id: 2
+    description: "Implement confirm → session"
+    verify: "go test ./internal/organizations/... -run TestConfirm"
+    status: todo
+  - id: 3
+    description: "Enforce ≥1-owner invariant on downgrade/remove"
+    verify: "go test ./internal/organizations/... -run TestLastOwner"
+    status: todo

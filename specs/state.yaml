@@ -1,0 +1,47 @@
+active_flow: develop-tdd
+phase: implementation
+updated_at: "2026-11-08"
+current_branch: feat/e01-platform-foundation
+current_epic: e02
+handoff:
+  last_completed: e02
+  next_skill: develop-tdd
+  next_epic: e03  # Organizations (teams & memberships; co-flips with e02)
+notes: >
+  e02 Identity implemented and green: 10/10 integration tests pass against local Postgres 17.
+  Packages: internal/identity (user, session, authenticator, token), platform/hash (7-algorithm
+  parity: argon2, bcrypt, md5, sha, phpass, scrypt, scryptMod, plaintext). Migration
+  0002_identity.sql applied. UNIQUE(user_id,type) on authenticators for TOTP ON CONFLICT.
+  Passwords argon2id-hashed then AES-128-GCM-encrypted at rest. TOTP RFC 6238 ±1 step.
+  Token consume is timing-safe. OAuth tokens encrypted in sessions table.
+  e02 co-flips with e03 Organizations per migration strategy.
+decisions:
+  - gate: "Phase 1 scope"
+    reason: >
+      Pending work is the uncommitted e02 identity change set. e01 (commit 147f90b)
+      is also unmerged and is the base the module needs; e03-e15 are unstarted plan,
+      not pending work.
+    decision: "Ship e01+e02 as one PR; do not start new epics in this run."
+  - gate: "kickoff-branch HARD GATE"
+    reason: >
+      origin/main has no impl/ tree, so a branch cut from main cannot build or test
+      the Go module. pull_request workflows run from the PR head, so BUG-001 must
+      ship in the same change set as migration 0002 or the e02 PR stays red.
+    decision: "Fix BUG-001 on feat/e01-platform-foundation; removed the empty worktree and branch."
+  - gate: "develop-tdd RED"
+    reason: >
+      TestCIMigrationStepAppliesAllMigrations failed against the hard-coded 0001
+      step, and a fresh DB with only 0001 failed 9 identity tests with
+      'relation tokens does not exist'.
+    decision: "Add scripts/apply-migrations.sh and change the CI step; regression test now PASS."
+  - gate: "verify-work lint"
+    reason: >
+      golangci-lint v2.12.2 (the CI-pinned version) found errcheck, ineffassign,
+      and staticcheck QF1001 in existing files.
+    decision: "Fix the causes in three small commits; no linter suppression or config change."
+  - gate: "verify-work trace-stories / sync-skills"
+    reason: >
+      This repo has no scripts/trace-stories.sh and no skill changes, so those
+      bigpowers-specific gates are not applicable here.
+    decision: "Recorded as N/A; used go vet, build, golangci-lint, and the full test suite."
+

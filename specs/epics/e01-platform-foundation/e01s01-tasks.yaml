@@ -1,0 +1,19 @@
+story_id: e01s01
+title: 'Explicit error model + HTTP translation'
+status: done
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: 'Define AppError type + constructors with tests'
+    verify: 'go -C impl test ./platform/errors/...'
+    status: passing
+  - id: 2
+    description: 'Implement error-to-HTTP middleware'
+    verify: 'go -C impl test ./platform/errors/... -run TestTranslate'
+    status: passing
+  - id: 3
+    description: 'Port legacy error code catalog to a typed map'
+    verify: 'go -C impl test ./platform/errors/... -run TestCatalogParity'
+    status: passing

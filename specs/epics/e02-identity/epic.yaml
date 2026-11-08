@@ -1,0 +1,26 @@
+id: e02
+title: "Identity (accounts, sessions, MFA, tokens)"
+wsjf: 4.5
+sequence: 2
+total_bcps: 13
+status: done
+note: "Co-flips atomically with e03 organizations (team-invite writes users+sessions+teams+memberships in one request). Security-sensitive. Topological seq 2."
+stories:
+  - id: e02s01
+    title: "Users & accounts with password-hash import parity"
+    bcps: 5
+    status: passing
+    spec: e02s01-users-accounts.md
+    tasks: e02s01-tasks.yaml
+  - id: e02s02
+    title: "Sessions & MFA/TOTP lifecycle"
+    bcps: 5
+    status: passing
+    spec: e02s02-sessions-mfa.md
+    tasks: e02s02-tasks.yaml
+  - id: e02s03
+    title: "Verification, recovery, magic-url & OAuth tokens"
+    bcps: 3
+    status: passing
+    spec: e02s03-tokens.md
+    tasks: e02s03-tasks.yaml

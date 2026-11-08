@@ -1,0 +1,19 @@
+story_id: e01s04
+title: 'In-memory token-bucket rate limiting'
+status: done
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: 'Implement token-bucket Allow() with tests'
+    verify: 'go -C impl test ./platform/ratelimit/...'
+    status: passing
+  - id: 2
+    description: 'Encode legacy route limits/keys as typed labels'
+    verify: 'go -C impl test ./platform/ratelimit/... -run TestLabels'
+    status: passing
+  - id: 3
+    description: 'Add 429 middleware with Retry-After'
+    verify: 'go -C impl test ./platform/ratelimit/... -run TestMiddleware'
+    status: passing

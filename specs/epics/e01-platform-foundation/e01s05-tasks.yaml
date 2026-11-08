@@ -1,0 +1,27 @@
+story_id: e01s05
+title: 'Base Postgres schema + jobs table + worker skeleton'
+status: done
+bcps: 5
+risk: P0
+security: medium
+tasks:
+  - id: 1
+    description: 'Write base schema + jobs migration'
+    verify: 'psql -d gowrite_test -v ON_ERROR_STOP=1 -f impl/db/migrations/0001_base.sql && echo ok'
+    status: passing
+  - id: 2
+    description: 'Configure sqlc and generate typed queries'
+    verify: 'cd impl && sqlc generate && go build ./db/...'
+    status: passing
+  - id: 3
+    description: 'Implement Enqueue + SKIP-LOCKED Consume'
+    verify: 'GOWRITE_TEST_DATABASE_URL="postgres://danielvm@localhost:5432/gowrite_test?sslmode=disable" go -C impl test ./internal/jobs/... -run TestSkipLocked'
+    status: passing
+  - id: 4
+    description: 'Implement dedup_key idempotency'
+    verify: 'GOWRITE_TEST_DATABASE_URL="postgres://danielvm@localhost:5432/gowrite_test?sslmode=disable" go -C impl test ./internal/jobs/... -run TestDedup'
+    status: passing
+  - id: 5
+    description: 'Wire LISTEN/NOTIFY realtime channel'
+    verify: 'GOWRITE_TEST_DATABASE_URL="postgres://danielvm@localhost:5432/gowrite_test?sslmode=disable" go -C impl test ./internal/jobs/... -run TestNotify'
+    status: passing

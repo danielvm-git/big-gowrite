@@ -1,0 +1,20 @@
+id: e13
+title: "Console BFF + SPA hosting"
+wsjf: 3.4
+sequence: 13
+total_bcps: 6
+status: todo
+note: "Depends on identity/orgs/projects. Serves the preserved SvelteKit SPA. Topological seq 13."
+stories:
+  - id: e13s01
+    title: "Console BFF composition"
+    bcps: 3
+    status: todo
+    spec: e13s01-bff-composition.md
+    tasks: e13s01-tasks.yaml
+  - id: e13s02
+    title: "Serve SvelteKit SPA via go:embed"
+    bcps: 3
+    status: todo
+    spec: e13s02-spa-hosting.md
+    tasks: e13s02-tasks.yaml

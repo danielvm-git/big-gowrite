@@ -1,0 +1,11 @@
+story_id: e14s02
+title: "Stats worker"
+status: todo
+bcps: 2
+risk: P2
+security: low
+tasks:
+  - id: 1
+    description: "Implement stats aggregation worker"
+    verify: "go test ./internal/workers/... -run TestStats"
+    status: todo

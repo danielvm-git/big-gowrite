@@ -1,0 +1,19 @@
+story_id: e02s01
+title: "Users & accounts with password-hash import parity"
+status: passing
+bcps: 5
+risk: P0
+security: high
+tasks:
+  - id: 1
+    description: "Define User struct + sqlc queries"
+    verify: "go test ./internal/identity/... -run TestUserCRUD"
+    status: passing
+  - id: 2
+    description: "Implement multi-algorithm password verify"
+    verify: "go test ./internal/identity/... -run TestHashParity"
+    status: passing
+  - id: 3
+    description: "Enforce email/phone uniqueness"
+    verify: "go test ./internal/identity/... -run TestUniqueness"
+    status: passing

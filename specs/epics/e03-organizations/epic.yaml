@@ -1,0 +1,20 @@
+id: e03
+title: "Organizations (teams & memberships)"
+wsjf: 5.25
+sequence: 3
+total_bcps: 8
+status: todo
+note: "Co-flips atomically with e02 identity. Topological seq 3 (same flip unit as identity)."
+stories:
+  - id: e03s01
+    title: "Teams CRUD"
+    bcps: 3
+    status: todo
+    spec: e03s01-teams.md
+    tasks: e03s01-tasks.yaml
+  - id: e03s02
+    title: "Memberships (invited→confirmed, ≥1 owner)"
+    bcps: 5
+    status: todo
+    spec: e03s02-memberships.md
+    tasks: e03s02-tasks.yaml

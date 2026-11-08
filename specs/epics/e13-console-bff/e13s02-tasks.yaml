@@ -1,0 +1,15 @@
+story_id: e13s02
+title: "Serve SvelteKit SPA via go:embed"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Embed built SPA + serve with base /console"
+    verify: "go test ./internal/console/... -run TestSPAServe"
+    status: todo
+  - id: 2
+    description: "Implement SPA fallback + br/gz + cache tiers"
+    verify: "go test ./internal/console/... -run TestSPAHosting"
+    status: todo

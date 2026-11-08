@@ -1,0 +1,15 @@
+story_id: e07s02
+title: "repository.pushed event publishing via jobs"
+status: todo
+bcps: 3
+risk: P1
+security: medium
+tasks:
+  - id: 1
+    description: "Verify provider webhook signatures"
+    verify: "go test ./internal/vcs/... -run TestWebhookSig"
+    status: todo
+  - id: 2
+    description: "Publish repository.pushed to jobs"
+    verify: "go test ./internal/vcs/... -run TestPublishPush"
+    status: todo

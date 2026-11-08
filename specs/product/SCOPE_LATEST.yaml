@@ -1,0 +1,156 @@
+schema_version: 1
+generated_at: "2026-08-11"
+feature_name: "gowrite — Appwrite Go rewrite"
+status: draft
+
+core_value: >
+  Re-host Appwrite's self-hosted BaaS as a single lightweight Go service on one VPS,
+  preserving every user-facing behavior and the existing console UI, while shedding the
+  multi-database, multi-runtime operational weight of the PHP/Swoole original.
+
+summary: >
+  gowrite reimplements the Appwrite backend (PHP 8 / Swoole, 22 modules, 12 workers,
+  48 collections) as an idiomatic Go system: explicit error returns, interface composition,
+  goroutine/channel concurrency, and statically typed schemas. Persistence consolidates from
+  Mongo + MariaDB + Postgres + Redis down to a single PostgreSQL instance (relational + JSONB +
+  pgvector), with the async job queue backed by a `jobs` table (`SELECT … FOR UPDATE SKIP LOCKED`)
+  and realtime via `LISTEN/NOTIFY`. The work is organized as 11 bounded contexts plus a Console
+  BFF, delivered bottom-up in topological order so each context can be proven at parity before the
+  next depends on it.
+
+  Delivery follows Strangler Fig + Parallel Run: the Go server runs beside the existing PHP stack,
+  Traefik routes each migrated context to Go while the rest stays on PHP, and traffic only flips
+  after a Parallel Run proves output parity (response shape, WS protocol, stream framing, error
+  catalog) against the legacy. Rollback is a route change. The Appwrite console SPA is preserved
+  as-is and served from Go via `go:embed`; parity is defined as API contract + protocol parity,
+  not a UI redesign.
+
+  Success is measured per context: parity gate passed, traffic flipped, PHP path decommissioned —
+  ending when the last context is in Go and the PHP stack is retired.
+
+in_scope:
+  - id: platform-foundation
+    maps_to_epic: e01
+    description: >
+      Shared leaf packages (errors/AppError, auth, permissions from roles.php, crypto for the 25
+      encrypted-at-rest fields, in-memory token-bucket ratelimit), base PostgreSQL schema, and the
+      `jobs` table with SKIP-LOCKED dispatch + LISTEN/NOTIFY realtime plumbing.
+  - id: identity
+    maps_to_epic: e02
+    description: >
+      Accounts, users, sessions, MFA/TOTP lifecycle, tokens, password-hash import parity
+      (Bcrypt/MD5/Argon2/SHA/PHPass/Scrypt variants). Co-flips atomically with organizations.
+  - id: organizations
+    maps_to_epic: e03
+    description: >
+      Teams and memberships (invited→confirmed, ≥1 owner invariant), tenancy base. Co-flips
+      atomically with identity because team-invite writes users+sessions+teams+memberships in one request.
+  - id: projects
+    maps_to_epic: e04
+    description: >
+      Projects (sole owner of the projects collection), platforms, keys, and webhooks. Depends on organizations.
+  - id: data
+    maps_to_epic: e05
+    description: >
+      Databases, collections, documents, and document-level ACL permissions; optimistic-lock
+      transactions (staging, version check, atomic commit, rollback); VectorsDB via pgvector. Depends on projects.
+  - id: storage
+    maps_to_epic: e06
+    description: >
+      Buckets and files, chunked upload with concurrent-safe finalize (compression, encryption,
+      antivirus), signed access. Depends on projects.
+  - id: vcs
+    maps_to_epic: e07
+    description: >
+      GitHub/GitLab installations and repository linkage; publishes repository.pushed events via
+      the jobs table. Migrated before/with compute.
+  - id: compute
+    maps_to_epic: e08
+    description: >
+      Functions and sites: deployment state machine (waiting→processing→building→ready|failed|canceled),
+      execution state machine, VCS deploy fan-out and preview rules. Consumes VCS events. External
+      executor/browser remain network dependencies in phase 1.
+  - id: networking
+    maps_to_epic: e09
+    description: >
+      Proxy rules and domains: rule/proxy state machine with domain verification and TLS certificate lifecycle.
+  - id: messaging
+    maps_to_epic: e10
+    description: >
+      Message lifecycle (draft→scheduled→processing→sent|failed, idempotent terminal) across
+      email/SMS/push providers.
+  - id: migrations
+    maps_to_epic: e11
+    description: >
+      Data import/migration jobs (pending→processing→completed|failed, retry only from failed).
+  - id: advisor
+    maps_to_epic: e12
+    description: >
+      Advisor/recommendations context.
+  - id: console-bff
+    maps_to_epic: e13
+    description: >
+      Console BFF composing identity+organizations+projects, plus serving the preserved SvelteKit
+      SPA via go:embed with the 5 hosting requirements (base /console, SPA fallback, br/gz
+      negotiation, cache tiers, endpoint from window.location).
+  - id: cross-cutting-workers
+    maps_to_epic: e14
+    description: >
+      Cross-cutting workers (Deletes, Stats) migrated last, after every context they touch is on Postgres.
+  - id: parity-and-cutover
+    maps_to_epic: e15
+    description: >
+      Parallel Run harness, response goldens + WS/stream/error-catalog contract tests, per-context
+      parity gate, Traefik flip, canary, and PHP decommission — the delivery mechanism applied to each context.
+
+out_of_scope:
+  - item: "Reimplementing the generic utopia-php/database multi-DB engine"
+    reason: "Deferred/rejected — only the typed subset the 22 modules actually use is built (sqlc + hand SQL). Porting the generic engine is BR-HUMANA-001 resolved toward a lean subset."
+  - item: "Redis, MongoDB, MariaDB and the multi-adapter database layer"
+    reason: "Not valuable — consolidated onto a single PostgreSQL instance (BR-HUMANA-002); multi-adapter is dead weight on a single VPS."
+  - item: "Rewriting the Appwrite console SPA"
+    reason: "Not valuable and violates the UI-parity requirement — the SvelteKit SPA is preserved as-is (BR-HUMANA-004); only API contract + protocol parity is in scope."
+  - item: "Rewriting the functions executor, headless browser (screenshots), and AI assistant service"
+    reason: "Depends on external factor — these are services, not portable PHP; they remain external network dependencies in phase 1 (BR-HUMANA-003)."
+  - item: "PHP-paradigm mechanisms (try/catch exceptions, inject() DI container, Action inheritance, Swoole coroutines, PHP-array runtime schema, utopia-php-only ecosystem rule)"
+    reason: "Absorbed by construction in Go — no business rule lost (discard_log.md); these are paradigm mechanisms, not features."
+  - item: "High-availability / horizontal-scale / multi-region topology"
+    reason: "Too risky for now and out of the target's operating context — target is a personal VPS, not production-critical load; multi-region is deviation DEV-009, deferred."
+  - item: "Big-bang cutover"
+    reason: "Too risky — the system is large (22 modules); Strangler Fig + Parallel Run with per-context flip is the chosen delivery (migration_strategy.md)."
+
+constraints:
+  tech:
+    - "Go (idiomatic, flat packages — no hexagonal ports/adapters)"
+    - "PostgreSQL only (relational + JSONB + pgvector); no Redis"
+    - "Data access via sqlc + hand-written SQL + explicit crypto.Encrypt(); no generic ORM engine"
+    - "Async via jobs table + SELECT … FOR UPDATE SKIP LOCKED; realtime via LISTEN/NOTIFY"
+    - "Two binaries: cmd/server (HTTP) and cmd/worker (jobs consumer)"
+    - "Console SPA served via go:embed; Traefik as Strangler gateway routing by context"
+  process:
+    - "Solo developer; pace limited by daily AI quota; no fixed deadline"
+    - "No budget for paid infrastructure; target is a personal VPS"
+    - "Not production-critical under load"
+  delivery:
+    - "Bottom-up, one bounded context at a time, in topological dependency order"
+    - "Each context: Parallel Run → parity gate → Traefik flip → canary → PHP decommission"
+    - "Identity + Organizations flip as one atomic unit"
+    - "Cross-cutting workers (Deletes/Stats) migrate last"
+
+success_criteria:
+  - "Every one of the 11 contexts + Console BFF passes its parity gate (response goldens + WS protocol + stream framing + error catalog) at <0.01% divergence over the agreed observation window before flip."
+  - "Traffic for each context is served by Go and its PHP path is decommissioned."
+  - "The preserved console SPA runs unmodified against the Go API with the same look, features, and behavior."
+  - "All 25 encrypted-at-rest fields are re-encrypted and readable post-migration; no plaintext leak."
+  - "Single PostgreSQL instance replaces Mongo + MariaDB + Postgres + Redis with no lost business rule (18 MIGRAR rules preserved)."
+  - "The PHP/Swoole stack is fully retired at the end of the sequence."
+
+references:
+  - "specs/migration/handoff.md — authoritative anchor decisions + implementation order"
+  - "specs/migration/migration_strategy.md — Strangler Fig + Parallel Run, topological order"
+  - "specs/migration/target_architecture.md — 11 contexts + Console BFF, flat Go, Postgres-only"
+  - "specs/migration/target_business_rules.md — 18 MIGRAR / 6 DESCARTAR / 4 DECISÃO HUMANA"
+  - "specs/migration/paradigm_decision.md — transformational Go-native paradigm"
+  - "specs/tech-architecture/tech-stack.md — bounded-context map + invariants"
+  - "specs/migration/parity_specs.md — parity definition and acceptance"
+  - "specs/database/ — 48 collections / 606 attributes / 233 indexes"
