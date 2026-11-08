@@ -113,7 +113,9 @@ func (p Principal) Allows(doc Document, op Op) bool {
 		if !ok {
 			continue
 		}
-		if pop != want && !(pop == "write" && (op == OpCreate || op == OpUpdate || op == OpDelete)) {
+		grantsOp := pop == want ||
+			(pop == "write" && (op == OpCreate || op == OpUpdate || op == OpDelete))
+		if !grantsOp {
 			continue
 		}
 		if p.roleMatches(role) {
