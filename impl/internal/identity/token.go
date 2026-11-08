@@ -90,7 +90,6 @@ FROM tokens WHERE type=$1 AND expire > now()`
 	defer rows.Close()
 
 	var matched *Token
-	var matchedEncSecret string
 	for rows.Next() {
 		var t Token
 		var encSecret string
@@ -105,13 +104,10 @@ FROM tokens WHERE type=$1 AND expire > now()`
 			}
 			if string(plain) == secret {
 				matched = &t
-				matchedEncSecret = encSecret
 				break
 			}
 		} else if encSecret == secret {
 			matched = &t
-			matchedEncSecret = encSecret
-			_ = matchedEncSecret
 			break
 		}
 	}
